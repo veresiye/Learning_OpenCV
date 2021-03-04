@@ -74,7 +74,7 @@ def main():
         break
 
     # Show the resulting image:
-    cv2.imshow("Face tracking using dlib frontal face detector and correlation filters for tracking", frame)
+    cv2.imshow("Face tracking", frame)
 
   # Release everything:
   capture.release()
