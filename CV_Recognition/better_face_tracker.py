@@ -36,9 +36,6 @@ def main():
     # Capture frame from webcam:
     ret, frame = capture.read()
 
-    # We draw basic info:
-    draw_text_info()
-
     if (tracking_face is False) and toggle:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # Try to detect a face to initialize the tracker:
@@ -55,8 +52,13 @@ def main():
         # Get the position of the tracked object:
         pos = tracker.get_position()
         # Draw the position:
-        cv2.rectangle(frame, (int(pos.left()), int(pos.top())), (int(pos.right()), int(pos.bottom())), (0, 255, 0), 3)
-        frame = frame[int(pos.top()):int(pos.bottom()), int(pos.left()):int(pos.right())]
+        #cv2.rectangle(frame, (int(pos.left()), int(pos.top())), (int(pos.right()), int(pos.bottom())), (0, 255, 0), 3)
+        if int(pos.top()) < 0:
+          frame = frame[0:int(pos.bottom()), int(pos.left()):int(pos.right())]
+        if int(pos.left()) < 0:
+          frame = frame[int(pos.top()):int(pos.bottom()), 0:int(pos.right())]
+        if int(pos.left()) >= 0 and int(pos.top()) >= 0:
+          frame = frame[int(pos.top()):int(pos.bottom()), int(pos.left()):int(pos.right())]
 
 
     # We capture the keyboard event
@@ -74,6 +76,9 @@ def main():
         break
 
     # Show the resulting image:
+    frame = cv2.flip(frame, 1)
+    # We draw basic info:
+    draw_text_info()
     cv2.imshow("Face tracking", frame)
 
   # Release everything:

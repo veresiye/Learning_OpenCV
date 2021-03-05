@@ -13,6 +13,7 @@ def main():
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
     for (x, y, w, h) in faces:
         frame = frame[y:y+h, x:x+w]
+    frame = cv2.flip(frame, 1)
     cv2.imshow('img', frame)
     k = cv2.waitKey(1)
     if k == ord('s'):
